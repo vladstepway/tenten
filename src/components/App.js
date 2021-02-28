@@ -27,7 +27,7 @@ class App extends Component {
         return srcCells;
     }
 
-    initTargetCells(){
+    initTargetCells() {
         let targetCells = [];
         for (let i = 0; i < 10; i++) {
             targetCells.push([]);
@@ -55,6 +55,138 @@ class App extends Component {
             isDragging: true,
             dragBlock: srcCells[i]
         });
+    }
+
+    //handle figure dropping
+    handleDrop(i) {
+        let onGrid = false;//is figure on grid
+        let cells = this.state.targetCells
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (cells[i][j].color === SHADOW_COLOR) {
+                    onGrid = true;
+                    break;
+                }
+            }
+        }
+        if (this.state.canDrop && onGrid) {
+            console.log('can drop')
+            let score = this.state.score;
+            let color = this.state.dragBlock.color;
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+                    if (cells[i][j].color === SHADOW_COLOR) {
+                        score += 1;
+                        cells[i][j] = {
+                            color: color,
+                            fill: 1
+                        };
+                    }
+                }
+            }
+            let srcCells = this.state.srcCells;
+            let index = this.state.srcCells.indexOf(this.state.dragBlock)
+            srcCells.splice(index, 1)
+            if (srcCells.length === 0) {
+                srcCells = this.initSrcCells()
+            }
+            this.setState({
+                targetCells: cells,
+                score: score,
+                isDragging: false,
+                srcCells: srcCells
+            });
+            this.clearBlock();
+        } else {
+            console.log('cant drop')
+            let srcCells = this.state.srcCells;
+            srcCells[i].style = {}
+            this.setState({
+                srcCells,
+                isDragging: false,
+                dragBlock: null,
+                targetCells: this.clearShadow(),
+                canDrop: true
+            });
+        }
+    }
+
+    clearBlock() {//clear board
+        let cells = this.state.targetCells;
+        let score = this.state.score;
+        //rows detection
+        for (let i = 0; i < 10; i++) {
+            if (cells[i].every(cell => cell.fill)) {
+                score += 10;
+                for (let cell of cells[i]) {
+                    cell.fill = 0;
+                    cell.color = 'transparent';
+                    cell.className = 'dispear';
+                }
+            }
+        }
+        //cols detection
+        for (let i = 0; i < 10; i++) {
+            if (cells.every(row => row[i].fill)) {
+                score += 10;
+                for (let row of cells) {
+                    row[i].fill = 0;
+                    row[i].color = 'transparent';
+                    row[i].className = 'dispear';
+                }
+            }
+        }
+        this.setState({
+            targetCells: cells,
+            score
+        })
+
+    }
+
+    clearShadow() {
+        let cells = this.state.targetCells;
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (!cells[i][j].fill && cells[i][j].color === SHADOW_COLOR) {
+                    cells[i][j] = {
+                        color: "transparent"
+                    };
+                }
+            }
+        }
+        return cells
+    }
+
+    //Draw the shadow when the block moves
+    drawShadow(x, y) {
+        if (this.state.isDragging) {
+            let cells = this.clearShadow();
+            let {shape} = this.state.dragBlock
+            //Fill shadow
+            let startX = x - 2, startY = y - 2, canDrop = true;
+            for (let m = 0; m < 5; m++) {
+                for (let n = 0; n < 5; n++) {
+                    let cellX = startX + m, cellY = startY + n;
+                    if (cellX >= 0 && cellX < 10 && cellY >= 0 && cellY < 10 && shape[m * 5 + n]) {
+                        if (!cells[cellX][cellY].fill) {//is unfilled
+                            cells[cellX][cellY] = {
+                                color: SHADOW_COLOR
+                            }
+                        } else {
+                            console.log('cant drop', cellX, cellY)
+                            canDrop = false
+                        }
+                    } else {
+                        console.log('out', cellX, cellY)
+                    }
+                }
+            }
+            console.log('end shadow')
+            this.setState({
+                targetCells: cells,
+                canDrop
+            });
+        }
     }
 }
 

@@ -41,6 +41,21 @@ class App extends Component {
         }
         return targetCells;
     }
+
+    handleDrag(x, y, i) {
+        let srcCells = this.state.srcCells;
+        srcCells[i].style = {
+            position: "absolute",
+            transform: "scale(2)",
+            left: x,
+            top: y
+        }
+        this.setState({
+            srcCells,
+            isDragging: true,
+            dragBlock: srcCells[i]
+        });
+    }
 }
 
 export default App;

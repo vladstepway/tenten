@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import BlockFactory from "../utils/BlockFactory";
+import Blocks from "./Blocks";
+import Grid from "./Grid";
+import ColorGrid from "./ColorGrid";
+import "./App.css";
 
 const SHADOW_COLOR = "rgba(255, 96, 96, .3)"//Shadow color
 class App extends Component {
@@ -189,16 +193,42 @@ class App extends Component {
         }
     }
 
-    reStart(){
+    reStart() {
         console.log('restart')
         this.setState({
-            srcCells : this.initSrcCells(),
+            srcCells: this.initSrcCells(),
             score: 0,
-            targetCells : this.initTargetCells(),
+            targetCells: this.initTargetCells(),
             isDragging: false,
             canDrop: true,
             dragBlock: {}
         })
+    }
+
+    render() {
+        return (
+            <div>
+                <div className="score">
+                    score: {this.state.score}
+                    <span className="newGame" onClick={this.reStart}>Restart</span>
+                </div>
+                <div className="App">
+                    <div style={{position: 'relative'}}>
+                        <Grid/>
+                        <ColorGrid
+                            isDragging={this.state.isDragging}
+                            targetCells={this.state.targetCells}
+                            block={this.state.dragBlock}
+                            onBlockMove={this.drawShadow}
+                        />
+                    </div>
+                    <Blocks
+                        onDrag={this.handleDrag}
+                        onDrop={this.handleDrop}
+                        srcCells={this.state.srcCells}/>
+                </div>
+            </div>
+        );
     }
 }
 

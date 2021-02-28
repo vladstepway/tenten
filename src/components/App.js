@@ -26,6 +26,21 @@ class App extends Component {
         }
         return srcCells;
     }
+
+    initTargetCells(){
+        let targetCells = [];
+        for (let i = 0; i < 10; i++) {
+            targetCells.push([]);
+            for (let j = 0; j < 10; j++) {
+                targetCells[i][j] = {
+                    color: "transparent",
+                    className: '',
+                    fill: 0
+                };
+            }
+        }
+        return targetCells;
+    }
 }
 
 export default App;

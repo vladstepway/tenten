@@ -188,6 +188,18 @@ class App extends Component {
             });
         }
     }
+
+    reStart(){
+        console.log('restart')
+        this.setState({
+            srcCells : this.initSrcCells(),
+            score: 0,
+            targetCells : this.initTargetCells(),
+            isDragging: false,
+            canDrop: true,
+            dragBlock: {}
+        })
+    }
 }
 
 export default App;

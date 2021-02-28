@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import BlockFactory from "../utils/BlockFactory";
 
 const SHADOW_COLOR = "rgba(255, 96, 96, .3)"//Shadow color
 class App extends Component {
@@ -16,6 +17,14 @@ class App extends Component {
         this.handleDrop = this.handleDrop.bind(this);
         this.drawShadow = this.drawShadow.bind(this);
         this.reStart = this.reStart.bind(this);
+    }
+
+    initSrcCells() {
+        let srcCells = [];
+        for (let m = 0; m < 3; m++) {
+            srcCells.push(BlockFactory.generateFigure())
+        }
+        return srcCells;
     }
 }
 

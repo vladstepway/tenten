@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class Block extends Component {
+export default class Figure extends Component {
     //Figure
     constructor(props) {
         super(props);
@@ -50,5 +50,3 @@ class Block extends Component {
         );
     }
 }
-
-export default Block;

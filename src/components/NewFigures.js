@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import Block from "./Block";
+import Figure from "./Figure";
 
-class Blocks extends Component {
+export default class NewFigures extends Component {
     //Figures
     constructor(props) {
         super(props);
@@ -20,13 +20,11 @@ class Blocks extends Component {
     render() {
         return (
             <div className="container">
-                {this.props.srcCells.map((blk, index) =>
-                    <Block key={index} isDrag={this.handleDrag.bind(this, index)}
-                           isDrop={this.handleDrop.bind(this, index)} block={blk}/>
+                {this.props.srcCells.map((figure, index) =>
+                    <Figure key={index} isDrag={this.handleDrag.bind(this, index)}
+                            isDrop={this.handleDrop.bind(this, index)} block={figure}/>
                 )}
             </div>
         );
     }
 }
-
-export default Blocks;

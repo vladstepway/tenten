@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 //Colored blocks grid
-class ColorGrid extends Component {
+export default class GameBoardContainer extends Component {
     constructor(props) {
         super(props);
         this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -22,16 +22,14 @@ class ColorGrid extends Component {
                         style={{backgroundColor: cells[i][j].color}}
                         onMouseOver={e => this.handleMouseOver(i, j)}
                         key={i + "" + j}
-                    ></div>
+                    />
                 );
             }
         }
         return (
-            <div className="Grid color">
+            <div className="boardContainer coloredBoardContainer">
                 {colorCells}
             </div>
         );
     }
 }
-
-export default ColorGrid;

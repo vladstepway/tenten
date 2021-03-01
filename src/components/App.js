@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import BlockFactory from "../utils/BlockFactory";
-import Blocks from "./Blocks";
-import Grid from "./Grid";
-import ColorGrid from "./ColorGrid";
 import "./App.css";
+import ScoreContainer from "./ScoreContainer";
+import GameContainer from "./GameContainer";
+import ControlPanel from "./ControlPanel";
 
 const SHADOW_COLOR = "rgba(255, 96, 96, .3)"//Shadow color
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -172,20 +173,17 @@ class App extends Component {
                 for (let n = 0; n < 5; n++) {
                     let cellX = startX + m, cellY = startY + n;
                     if (cellX >= 0 && cellX < 10 && cellY >= 0 && cellY < 10 && shape[m * 5 + n]) {
-                        if (!cells[cellX][cellY].fill) {//is unfilled
+                        if (!cells[cellX][cellY].fill) {
+                            //is unfilled
                             cells[cellX][cellY] = {
                                 color: SHADOW_COLOR
                             }
                         } else {
-                            console.log('cant drop', cellX, cellY)
                             canDrop = false
                         }
-                    } else {
-                        console.log('out', cellX, cellY)
                     }
                 }
             }
-            console.log('end shadow')
             this.setState({
                 targetCells: cells,
                 canDrop
@@ -194,7 +192,6 @@ class App extends Component {
     }
 
     reStart() {
-        console.log('restart')
         this.setState({
             srcCells: this.initSrcCells(),
             score: 0,
@@ -205,28 +202,25 @@ class App extends Component {
         })
     }
 
+    openSettings() {
+
+    }
+
     render() {
         return (
             <div>
-                <div className="score">
-                    score: {this.state.score}
-                    <span className="newGame" onClick={this.reStart}>Restart</span>
-                </div>
-                <div className="App">
-                    <div style={{position: 'relative'}}>
-                        <Grid/>
-                        <ColorGrid
-                            isDragging={this.state.isDragging}
-                            targetCells={this.state.targetCells}
-                            block={this.state.dragBlock}
-                            onBlockMove={this.drawShadow}
-                        />
-                    </div>
-                    <Blocks
-                        onDrag={this.handleDrag}
-                        onDrop={this.handleDrop}
-                        srcCells={this.state.srcCells}/>
-                </div>
+                <ControlPanel onRestartClick={this.reStart} onSettingsClick={this.openSettings}/>
+                <ScoreContainer score={this.state.score}/>
+                <GameContainer
+                    isDragging={this.state.isDragging}
+                    targetCells={this.state.targetCells}
+                    block={this.state.dragBlock}
+                    onBlockMove={this.drawShadow}
+
+                    onDrag={this.handleDrag}
+                    onDrop={this.handleDrop}
+                    srcCells={this.state.srcCells}
+                />
             </div>
         );
     }

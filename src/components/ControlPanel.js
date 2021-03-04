@@ -1,8 +1,12 @@
-import React from "react";
+import React from 'react';
+import {Container, Switch} from "@material-ui/core";
 
-export default function ControlPanel(props) {
-    console.log(props)
+export default function ControlPanel({onRestartClick, onThemeChange, isDarkMode}) {
     return (
-        <button className="newGameButton" onClick={props.onRestartClick}>Restart</button>
+        <div>
+            <Switch color={'secondary'} checked={isDarkMode} onChange={onThemeChange}/>
+            <button className="newGameButton" onClick={onRestartClick}>Restart</button>
+        </div>
+
     );
 }

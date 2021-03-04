@@ -1,35 +1,54 @@
-import React, {Component} from "react";
+import React from "react";
+import {createStyles, makeStyles} from "@material-ui/core";
 
-//Colored blocks grid
-export default class GameBoardContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.handleMouseOver = this.handleMouseOver.bind(this);
+export default function GameBoardContainer(props) {
+
+
+    const useStyles = makeStyles((theme) =>
+        createStyles({
+                boardContainer: {
+                    width: '420px',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    height: ' 400px',
+                },
+                coloredBoardContainer: {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                }
+            }
+        ),
+    );
+
+    const handleMouseOver = (i, j, e) => {
+        props.onBlockMove(i, j)
     }
 
-    handleMouseOver(i, j, e) {
-        this.props.onBlockMove(i, j)
-    }
-
-    render() {
-        let colorCells = [];
-        let cells = this.props.targetCells;
+    const handleColoredCells = () => {
+        let coloredCells = [];
+        let cells = props.targetCells;
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                colorCells.push(
+                coloredCells.push(
                     <div
                         className={(cells[i][j].className || '') + ' cell'}
                         style={{backgroundColor: cells[i][j].color}}
-                        onMouseOver={e => this.handleMouseOver(i, j)}
+                        onMouseOver={e => handleMouseOver(i, j)}
                         key={i + "" + j}
                     />
                 );
             }
         }
-        return (
-            <div className="boardContainer coloredBoardContainer">
-                {colorCells}
-            </div>
-        );
+        return coloredCells;
     }
+
+    const classes = useStyles();
+
+    const colorCells = handleColoredCells();
+    return (
+        <div className={`${classes.boardContainer} ${classes.coloredBoardContainer}`}>
+            {colorCells}
+        </div>
+    )
 }

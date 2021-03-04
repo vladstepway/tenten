@@ -5,12 +5,36 @@ import NewFiguresContainer from "./NewFigures";
 import BlockFactory from "../utils/BlockFactory";
 import ControlPanel from "./ControlPanel";
 import ScoreContainer from "./ScoreContainer";
+import {withStyles} from "@material-ui/core/styles";
 
 
 const SHADOW_COLOR = "rgba(255, 96, 96, .3)"//Shadow color
+//https://stackoverflow.com/questions/56554586/how-to-use-usestyle-to-style-class-component-in-material-ui
 
 
-export default class GameContainer extends React.Component {
+const useStyles = withStyles((theme) => ({
+    header: (props) => ({
+        backgroundColor: props.isDarkMode ? theme.palette.secondary.dark : theme.palette.primary.dark,
+        display: 'flex'
+    }),
+    app: ((props) => ({
+        display: 'flex',
+        padding: '5%',
+        justifyContent: 'center',
+        boxSizing: 'border-box',
+        width: '100%',
+        position: 'absolute',
+        backgroundColor: props.isDarkMode ? theme.palette.secondary.dark : theme.palette.primary.dark,
+    })),
+    gameBoard: (() => ({
+        position: 'relative'
+    })),
+    shadowColor: ((props) => ({
+        color: props.isDarkMode ? theme.palette.secondary.light : theme.palette.primary.light
+    }))
+}), {withTheme: true});
+
+const GameContainer = useStyles(class extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +49,7 @@ export default class GameContainer extends React.Component {
         this.handleDrop = this.handleDrop.bind(this);
         this.drawShadow = this.drawShadow.bind(this);
         this.reStart = this.reStart.bind(this);
+        console.log(this.props.classes.shadowColor.color)
     }
 
     initSrcCells() {
@@ -66,7 +91,7 @@ export default class GameContainer extends React.Component {
     }
 
     //handle figure dropping
-    handleDrop(i) {
+    handleDrop(figureIndex) {
         let onGrid = false;//is figure on grid
         let cells = this.state.targetCells
         for (let i = 0; i < 10; i++) {
@@ -108,7 +133,7 @@ export default class GameContainer extends React.Component {
         } else {
             console.log('cant drop')
             let srcCells = this.state.srcCells;
-            srcCells[i].style = {}
+            srcCells[figureIndex].style = {}
             this.setState({
                 srcCells,
                 isDragging: false,
@@ -129,7 +154,7 @@ export default class GameContainer extends React.Component {
                 for (let cell of cells[i]) {
                     cell.fill = 0;
                     cell.color = 'transparent';
-                    cell.className = 'dispear';
+                    cell.className = 'disappear';
                 }
             }
         }
@@ -140,7 +165,7 @@ export default class GameContainer extends React.Component {
                 for (let row of cells) {
                     row[i].fill = 0;
                     row[i].color = 'transparent';
-                    row[i].className = 'dispear';
+                    row[i].className = 'disappear';
                 }
             }
         }
@@ -148,7 +173,6 @@ export default class GameContainer extends React.Component {
             targetCells: cells,
             score
         })
-
     }
 
     clearShadow() {
@@ -167,6 +191,7 @@ export default class GameContainer extends React.Component {
 
     //Draw the shadow when the block moves
     drawShadow(x, y) {
+        console.log('shadow', x, y)
         if (this.state.isDragging) {
             let cells = this.clearShadow();
             let {shape} = this.state.dragBlock
@@ -207,27 +232,36 @@ export default class GameContainer extends React.Component {
 
     render() {
 
+        const {classes} = this.props
 
-        console.log(this.props)
         return (
-            <div className="App">
-                <ControlPanel onRestartClick={this.reStart}/>
-                <ScoreContainer score={this.state.score}/>
-                <div style={{position: 'relative'}}>
-                    <BoardContainer/>
-                    <GameBoardContainer
-                        isDragging={this.state.isDragging}
-                        targetCells={this.state.targetCells}
-                        block={this.state.dragBlock}
-                        onBlockMove={this.drawShadow}
+            <div>
+                <div className={classes.header}>
+                    <ControlPanel isDarkMode={this.props.isDarkMode}
+                                  onRestartClick={this.reStart}
+                                  onThemeChange={this.props.onThemeChange}/>
+                    <ScoreContainer score={this.state.score} isDarkMode={this.props.isDarkMode}/>
+                </div>
+                <div className={classes.app}>
+                    <div className={classes.gameBoard}>
+                        <BoardContainer isDarkMode={this.props.isDarkMode}/>
+                        <GameBoardContainer
+                            isDarkMode={this.props.isDarkMode}
+                            isDragging={this.state.isDragging}
+                            targetCells={this.state.targetCells}
+                            block={this.state.dragBlock}
+                            onBlockMove={this.drawShadow}
+                            classes={classes}
+                        />
+                    </div>
+                    <NewFiguresContainer
+                        onDrag={this.handleDrag}
+                        onDrop={this.handleDrop}
+                        srcCells={this.state.srcCells}
                     />
                 </div>
-                <NewFiguresContainer
-                    onDrag={this.handleDrag}
-                    onDrop={this.handleDrop}
-                    srcCells={this.state.srcCells}
-                />
             </div>
         );
     }
-}
+})
+export default GameContainer;

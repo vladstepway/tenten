@@ -3,14 +3,6 @@
     margin: 0;
 }
 
-.App {
-    display: flex;
-    padding: 5%;
-    justify-content: center;
-    box-sizing: border-box;
-    width: 100%;
-    position: absolute;
-}
 
 .boardContainer {
     width: 420px;
@@ -35,11 +27,11 @@
 }
 
 .block_container {
-    transition: transform .1s ease;
-    transform-origin: 100% 100%; /*鼠标的位置在3/3的位置*/
-    margin-top: 20px;
-    height: 108px;
-    width: 110px;
+    /*transition: transform .1s ease;*/
+    /*transform-origin: 100% 100%; !*鼠标的位置在3/3的位置*!*/
+    /*margin-top: 20px;*/
+    /*height: 108px;*/
+    /*width: 110px;*/
 }
 
 .score {
@@ -52,11 +44,11 @@
 }
 
 .block_cell {
-    width: 20px;
-    height: 20px;
-    margin-right: 2px;
-    border-radius: 2px;
-    display: inline-block;
+    /*width: 20px;*/
+    /*height: 20px;*/
+    /*margin-right: 2px;*/
+    /*border-radius: 2px;*/
+    /*display: inline-block;*/
 }
 
 .cell {

@@ -1,20 +1,43 @@
-import React, {Component} from "react";
+import React from "react";
+import {createStyles, makeStyles} from "@material-ui/core";
 
-export default class Figure extends Component {
+export default function Figure(props) {
     //Figure
-    constructor(props) {
-        super(props);
-        this.handleMouseDown = this.handleMouseDown.bind(this);
-    }
 
-    handleMouseDown(e) {
+    const useStyles = makeStyles((theme) =>
+        createStyles({
+                blockContainer: {
+                    transition: 'transform .1s ease',
+                    transformOrigin: '100% 100%',
+                    marginTop: '20px',
+                    height: '108px',
+                    width: '110px',
+                },
+                blockCell: {
+                    width: '20px',
+                    height: '20px',
+                    marginRight: '2px',
+                    borderRadius: '2px',
+                    display: 'inline-block',
+                }
+                // score: {
+                //     backgroundColor: themeState ? theme.palette.secondary.light : theme.palette.primary.light
+                // },
+                // totalScore: {
+                //     backgroundColor: themeState ? theme.palette.secondary.main : theme.palette.primary.main
+                // }
+            }
+        ),
+    );
+
+    const handleMouseDown = (e) => {
         e.preventDefault()
-        console.log(e.target)
+        // console.log(e.target)
         let moveHandler = e => {
             //is dragging from app
             let x = e.clientX
             let y = e.clientY
-            this.props.isDrag(x, y);
+            props.isDrag(x, y);
         };
         document.onmousemove = moveHandler
         document.ontouchmove = moveHandler
@@ -24,29 +47,28 @@ export default class Figure extends Component {
             }
             //It’s not tied to Tetris because the z-index of the grid is on Tetris, so Tetris cannot listen to mouseup.
             //Notify the end of the drag
-            this.props.isDrop();
+            props.isDrop();
             document.onmousemove = null;
         };
         document.onmouseup = upHandler
         document.ontouchend = upHandler
     }
 
-    render() {
-        return (
-            <div
-                className="block_container"
-                onMouseDown={this.handleMouseDown}
-                onTouchStart={this.handleMouseDown}
-                style={this.props.block.style}
-            >
-                {this.props.block.shape.map((i, index) =>
-                    <div
-                        key={index}
-                        className="block_cell"
-                        style={{background: i ? this.props.block.color : "transparent"}}
-                    />
-                )}
-            </div>
-        );
-    }
+    const classes = useStyles();
+    return (
+        <div
+            className={classes.blockContainer}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleMouseDown}
+            style={props.block.style}
+        >
+            {props.block.shape.map((shape, index) =>
+                <div
+                    key={index}
+                    className={classes.blockCell}
+                    style={{background: shape ? props.block.color : "transparent"}}
+                />
+            )}
+        </div>
+    );
 }

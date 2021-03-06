@@ -20,12 +20,6 @@ export default function Figure(props) {
                     borderRadius: '2px',
                     display: 'inline-block',
                 }
-                // score: {
-                //     backgroundColor: themeState ? theme.palette.secondary.light : theme.palette.primary.light
-                // },
-                // totalScore: {
-                //     backgroundColor: themeState ? theme.palette.secondary.main : theme.palette.primary.main
-                // }
             }
         ),
     );
@@ -42,7 +36,7 @@ export default function Figure(props) {
         document.onmousemove = moveHandler
         document.ontouchmove = moveHandler
         let upHandler = e => {
-            if (e.target.className !== ' cell') {//Pitted to death by blank space
+            if (!e.target.className.includes(' cell')) {//Pitted to death by blank space
                 return
             }
             //It’s not tied to Tetris because the z-index of the grid is on Tetris, so Tetris cannot listen to mouseup.
@@ -60,13 +54,13 @@ export default function Figure(props) {
             className={classes.blockContainer}
             onMouseDown={handleMouseDown}
             onTouchStart={handleMouseDown}
-            style={props.block.style}
+            style={props.figure.style}
         >
-            {props.block.shape.map((shape, index) =>
+            {props.figure.shape.map((shape, index) =>
                 <div
                     key={index}
                     className={classes.blockCell}
-                    style={{background: shape ? props.block.color : "transparent"}}
+                    style={{background: shape ? props.figure.color : "transparent"}}
                 />
             )}
         </div>

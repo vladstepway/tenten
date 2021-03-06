@@ -1,7 +1,7 @@
 import React from "react";
 import BoardContainer from "./BoardContainer";
 import GameBoardContainer from "./GameBoardContainer";
-import NewFiguresContainer from "./NewFigures";
+import FiguresContainer from "./FiguresContainer";
 import BlockFactory from "../utils/BlockFactory";
 import ControlPanel from "./ControlPanel";
 import ScoreContainer from "./ScoreContainer";
@@ -49,7 +49,6 @@ const GameContainer = useStyles(class extends React.Component {
         this.handleDrop = this.handleDrop.bind(this);
         this.drawShadow = this.drawShadow.bind(this);
         this.reStart = this.reStart.bind(this);
-        console.log(this.props.classes.shadowColor.color)
     }
 
     initSrcCells() {
@@ -103,7 +102,6 @@ const GameContainer = useStyles(class extends React.Component {
             }
         }
         if (this.state.canDrop && onGrid) {
-            console.log('can drop')
             let score = this.state.score;
             let color = this.state.dragBlock.color;
             for (let i = 0; i < 10; i++) {
@@ -131,7 +129,6 @@ const GameContainer = useStyles(class extends React.Component {
             });
             this.clearBlock();
         } else {
-            console.log('cant drop')
             let srcCells = this.state.srcCells;
             srcCells[figureIndex].style = {}
             this.setState({
@@ -191,7 +188,6 @@ const GameContainer = useStyles(class extends React.Component {
 
     //Draw the shadow when the block moves
     drawShadow(x, y) {
-        console.log('shadow', x, y)
         if (this.state.isDragging) {
             let cells = this.clearShadow();
             let {shape} = this.state.dragBlock
@@ -254,7 +250,7 @@ const GameContainer = useStyles(class extends React.Component {
                             classes={classes}
                         />
                     </div>
-                    <NewFiguresContainer
+                    <FiguresContainer
                         onDrag={this.handleDrag}
                         onDrop={this.handleDrop}
                         srcCells={this.state.srcCells}

@@ -8,7 +8,7 @@ import {CssBaseline} from "@material-ui/core";
 export default function App() {
 
     const [darkMode, setDarkMode] = useState(false);
-    const [isNotReady, setIsNotReady] = useState(true);
+    const [isNotReady, setIsNotReady] = useState(false);
     const themeType = darkMode ? "dark" : "light";
     const theme = createMuiTheme({
         palette: {
@@ -28,6 +28,9 @@ export default function App() {
                 dark: '#4527a0',
                 contrastText: '#fff',
             },
+            additional: {
+                light: '#eda'
+            }
         }
     });
 
@@ -35,15 +38,12 @@ export default function App() {
         setDarkMode(!darkMode);
     };
 
-    const renderMenu = isNotReady ? alert('Уважаемый проверяющий. Огромная просьба вернуться сюда и проверить 08.03 вечером,' +
-        ' в связи с работой почти ничего не успел сделать, очень надеюсь на понимание! Со мной можно связаться: discord(VaRRiK#4844) telegram(@vladstepovoy)') :
+    return (
         <ThemeProvider theme={theme}>
             <React.Fragment>
                 <CssBaseline/>
                 <GameContainer isDarkMode={darkMode} onThemeChange={handleThemeChange}/>
             </React.Fragment>
         </ThemeProvider>
-
-
-    return ({renderMenu});
+    );
 }

@@ -18,15 +18,14 @@ export default function FiguresContainer(props) {
         ),
     );
 
-    const classes = useStyles();
-
     const handleDrop = (index) => {
         props.onDrop(index)
     }
-
     const handleDrag = (index, leftX, topY) => {
         props.onDrag(leftX, topY, index);
     }
+
+    const classes = useStyles();
 
     return (
         <div className={classes.container}>

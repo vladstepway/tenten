@@ -1,13 +1,20 @@
 import React from 'react';
-import { createStyles, makeStyles, Switch } from '@material-ui/core';
+import { createStyles, makeStyles, Switch, Theme } from '@material-ui/core';
 import MusicOffIcon from '@material-ui/icons/MusicOff';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import IconButton from '@material-ui/core/IconButton';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import YouTubeIcon from '@material-ui/icons/YouTube';
 import Link from '@material-ui/core/Link';
+
+interface ControlPanelType {
+  onRestartClick(): void;
+  onThemeChange(): void;
+  onMusicTurn(): void;
+  isMusicOn: boolean;
+  isDarkMode: boolean;
+}
 
 export default function ControlPanel({
   onRestartClick,
@@ -15,8 +22,8 @@ export default function ControlPanel({
   isDarkMode,
   isMusicOn,
   onMusicTurn,
-}) {
-  const useStyles = makeStyles((theme) =>
+}: ControlPanelType) {
+  const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       newGameButton: {
         padding: '3px',
@@ -65,8 +72,7 @@ export default function ControlPanel({
       <Link
         href={'https://github.com/vladstepway/tenten'}
         target={'_blank'}
-        rel={'noopener'}
-        rel="noreferrer"
+        rel={"noreferrer"}
         className={classes.link}
       >
         <GitHubIcon />

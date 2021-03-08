@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core';
-import clickSound from './../assets/sounds/click.mp3';
 
 export default function Figure(props) {
   //Figure
@@ -41,8 +40,6 @@ export default function Figure(props) {
         //Pitted to death by blank space
         return;
       }
-      //It’s not tied to Tetris because the z-index of the grid is on Tetris, so Tetris cannot listen to mouseup.
-      //Notify the end of the drag
       props.isDrop();
       document.onmousemove = null;
     };

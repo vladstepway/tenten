@@ -1,7 +1,12 @@
 import React from 'react';
 
-export default function GameBoardContainer(props) {
-  const handleMouseOver = (i, j, e) => {
+interface GameBoardContainer {
+  targetCells: any;
+  onBlockMove(i: any, j: any): void;
+}
+
+export default function GameBoardContainer(props: GameBoardContainer) {
+  const handleMouseOver = (i: number, j: number) => {
     props.onBlockMove(i, j);
   };
 
@@ -14,7 +19,7 @@ export default function GameBoardContainer(props) {
           <div
             className={(cells[i][j].className || '') + ` cell`}
             style={{ backgroundColor: cells[i][j].color }}
-            onMouseOver={(e) => handleMouseOver(i, j)}
+            onMouseOver={(_e) => handleMouseOver(i, j)}
             key={i + '' + j}
           />,
         );

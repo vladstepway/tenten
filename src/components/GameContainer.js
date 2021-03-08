@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BoardContainer from './BoardContainer';
 import GameBoardContainer from './GameBoardContainer';
 import FiguresContainer from './FiguresContainer';
 import BlockFactory from '../utils/BlockFactory';
 import ControlPanel from './ControlPanel';
 import ScoreContainer from './ScoreContainer';
-import { createStyles, makeStyles, withStyles } from '@material-ui/core';
-import useAudio from './useAudio';
+import { withStyles } from '@material-ui/core';
 
 //https://stackoverflow.com/questions/56554586/how-to-use-usestyle-to-style-class-component-in-material-ui
 const useStyles = withStyles(

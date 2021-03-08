@@ -31,7 +31,7 @@ export default function BoardContainer(props) {
     return (
         <div className={classes.boardContainer}>
             {Array.from({length: 100}).map((i, index) =>
-                <div className={classes.cell} key={index}/>
+                <div className={'cell'} key={index}/>
             )}
         </div>
     );

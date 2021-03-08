@@ -70,7 +70,7 @@ export default function ControlPanel({
         {musicIcon}
       </ToggleButton>
       <Link
-        href={'https://github.com/vladstepway/tenten'}
+        href={'https://github.com/vladstepway/tenten/pull/4'}
         target={'_blank'}
         rel={"noreferrer"}
         className={classes.link}

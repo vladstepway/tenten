@@ -1,11 +1,9 @@
 import React from 'react';
 import { createStyles, makeStyles } from '@material-ui/core';
-import useSound from 'use-sound';
 import clickSound from './../assets/sounds/click.mp3';
 
 export default function Figure(props) {
   //Figure
-  const [play] = useSound(clickSound);
   const useStyles = makeStyles((theme) =>
     createStyles({
       blockContainer: {
